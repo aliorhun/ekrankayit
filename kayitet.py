@@ -3,6 +3,8 @@ import sys
 import ftplib
 import datetime
 import time
+import tkinter as tk
+from tkinter import filedialog
 
 ftpservername="10.154.25.159"
 ftpusername="elma"
@@ -11,11 +13,15 @@ ftppassword="elma"
 # cython3 --embed -o kayitet.c kayitet.py 
 # gcc -v -Os -I /usr/include/python3.7m/ -L /usr/lib/x86_64-linux-gnu/  -o kayitet kayitet.c  -lpython3.7m  -lpthread -lm -lutil -ldl
 
-def record():
+def record(file_path):
 	datetime_object = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H:%M:%S')
-	cmd="recordmydesktop --no-sound -o "+str(datetime_object)+".ogv > /dev/null 2>&1 &"
+	cmd="recordmydesktop --no-sound -o "+str(datetime_object)+".ogv > " + file_path + " 2>&1 &"
 	subprocess.check_output(cmd, shell=True)
-	return("Kayıt Başladı")
+	return("Kayıt konumu:" + file_path + "\nKAYIT BAŞLADI")
+
+def recorddir():
+	file_path = filedialog.askdirectory()
+	return(record(file_path))
 
 def searchProgram():
 	cmd="ps aux | grep recordmydesktop | awk {'print $2'} | head -1"
@@ -53,6 +59,8 @@ def stop():
 
 if __name__ == "__main__":
 	if (sys.argv[1]=="record"):
-		print(record())
+		print(record("/dev/null"))
+	elif(sys.argv[1]=="recorddir"):
+		print(recorddir())
 	elif(sys.argv[1]=="stop"):
 		stop()
