@@ -9,6 +9,9 @@
 ## Kayıt Başlat
 > kayit record
 
+## Manuel Kayıt Başlat
+> kayit recorddir
+
 ## Kayıt Bitir ve FTP ile yolla
 > kayit stop
 
